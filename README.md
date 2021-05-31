@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# Web team recruitment task - React developer 2021
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Simple book store application. User can:
 
-## Available Scripts
+- see all available books in-store (fetched from the API)
+- search available books by their title
+- add a book to a cart
+- see that he added a book to cart (a buy button is disabled)
+- remove a book from a cart
+- see total price
+- see discount
+- see the final price to pay
 
-In the project directory, you can run:
+## Discout
 
-### `yarn start`
+Some books are part of a special offer (have set property `specialOffer` to `true`). Every three books on promotion added to cart make the lower price book free
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### API
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Actual URL of the API is: https://dor-web-book-store-api.herokuapp.com
 
-### `yarn test`
+#### Get all books
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`/get-all-books`
 
-### `yarn build`
+return all books from JSON file
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Get books
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`/get-books`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This endpoint return books grouped by pages
 
-### `yarn eject`
+Arguments:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- page - actual page to receive - started from 1.
+- limit - number of elements in page
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Search books by title
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`/search-books`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This endpoint return all books that includes search pharse
 
-## Learn More
+Arguments:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- q - search pharse. If not provider returns all available books.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Technical summary
+
+- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- This project includes [bulma](https://bulma.io) CSS framework.

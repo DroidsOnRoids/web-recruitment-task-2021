@@ -1,10 +1,7 @@
-import "@fortawesome/fontawesome-free/js/all";
-import "bulma/css/bulma.css";
-import "./App.css";
-import { Cart } from "./components/Cart";
-import { Layout } from "./components/Layout";
-import { BookList } from "./components/BookList";
-import { Book } from "./components/types";
+import { EmptyCart } from "./EmptyCart";
+import { CartItemsList } from "./CartItemsList";
+import { priceFormatter } from "../../helpers";
+import { Book } from "../types";
 
 const fakeData: Book[] = [
   {
@@ -56,40 +53,51 @@ const fakeData: Book[] = [
     price: 26.7,
     quantity: 3,
     specialOffer: true,
-    shortDescription:
-      "Android in Action, Second Edition is a comprehensive tutorial for Android developers. Taking you far beyond \"Hello Android,\" this fast-paced book puts you in the driver's seat as you learn important architectural concepts and implementation strategies. You'll master the SDK, build WebKit apps using HTML 5, and even learn to extend or replace Android's built-in features by building useful and intriguing examples. ",
-    longDescription:
-      "When it comes to mobile apps, Android can do almost anything   and with this book, so can you! Android runs on mobile devices ranging from smart phones to tablets to countless special-purpose gadgets. It's the broadest mobile platform available.    Android in Action, Second Edition is a comprehensive tutorial for Android developers. Taking you far beyond \"Hello Android,\" this fast-paced book puts you in the driver's seat as you learn important architectural concepts and implementation strategies. You'll master the SDK, build WebKit apps using HTML 5, and even learn to extend or replace Android's built-in features by building useful and intriguing examples. ",
+    shortDescription: "",
+    longDescription: "",
   },
 ];
 
-function App() {
-  const cart: Book[] = [];
-  const books = fakeData;
-  const isFetching = false;
-  const hasError = false;
+const calculateDiscount = (items: Book[]) => {
+  return 0;
+};
 
-  const handleAddBookToCart = (book: Book) => {};
+export const Cart = () => {
+  const subTotal = fakeData.reduce((sum, item) => sum + item.price, 0);
+  const discout = calculateDiscount(fakeData);
+  const total = subTotal - discout;
   return (
-    <Layout aside={<Cart />}>
-      <div className="tile is-parent">
-        <div className="tile is-child box">
-          <p className="title">Available books</p>
-          {isFetching && (
-            <progress className="progress is-large is-primary" max="100">
-              15%
-            </progress>
-          )}
-          {hasError && (
-            <p className="has-text-danger">
-              Problem with connection to the API appeared
-            </p>
-          )}
-          <BookList items={books} />
+    <div className="tile is-parent">
+      <div className="tile is-child box">
+        <h4 className="title is-4">Your cart</h4>
+        <hr />
+        {fakeData.length === 0 ? (
+          <EmptyCart />
+        ) : (
+          <CartItemsList
+            items={fakeData}
+            onRemoveItem={() => console.log("To implemented")}
+          />
+        )}
+        <div className="columns">
+          <div className="column">Subtotal:</div>
+          <div className="column has-text-right is-size-6">
+            {priceFormatter(subTotal)}
+          </div>
+        </div>
+        <div className="columns">
+          <div className="column">Discount:</div>
+          <div className="column has-text-right is-size-6">
+            {priceFormatter(discout)}
+          </div>
+        </div>
+        <div className="columns">
+          <div className="column">Total:</div>
+          <div className="column  has-text-right is-size-4">
+            <strong>{priceFormatter(total)}</strong>
+          </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
-}
-
-export default App;
+};
